@@ -50,8 +50,6 @@ Disk quotas
 Disk quotas on Cirrus are managed via
 `SAFE <https://safe.epcc.ed.ac.uk>`__
 
-For live disk usage figures on the Ceph ``/home`` file system, use 
-
 For live disk usage figures on the Lustre ``/work`` file system, use
 
 ::
