@@ -74,16 +74,81 @@ any critical data on different  systems.
 
 The solid-state storage ``/scratch/space1`` file system is not backed up.
 
+Sharing data with other Cirrus users
+------------------------------------
+
+How you share data with other Cirrus users depends on whether or not they belong 
+to the same project as you. Each project has two shared folders that can be used 
+for sharing data.
+
+Sharing data with Cirrus users in your project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each project has an inner shared folder on the ``/home`` and ``/work`` 
+filesystems:
+
+::
+
+    /home/[project code]/[project code]/shared
+
+    /work/[project code]/[project code]/shared
+
+This folder has read/write permissions for all project members. You can place any 
+data you wish to share with other project members in this directory. For example, 
+if your project code is ``x01`` the inner shared folder on the ``/work`` file system 
+would be located at ``/work/x01/x01/shared``.
+
+Sharing data with all Cirrus users
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each project also has an outer shared folder on the ``/home`` and ``/work`` 
+filesystems:
+
+::
+
+    /home/[project code]/shared
+
+    /work/[project code]/shared
+
+It is writable by all project members and readable by any user on the system. You 
+can place any data you wish to share with other Cirrus users who are not members 
+of your project in this directory. For example, if your project code is ``x01`` the 
+outer shared folder on the ``/work`` file system would be located at 
+``/work/x01/shared``.
+
+
 File permissions and security
 -----------------------------
 
-By default, each user is a member of the group with the same name as
-[group\_code] in their ``/home`` and ``/work`` directory paths, e.g.
-``x01``. This allows the user to share files with only members of that
-group by setting the appropriate group file access permissions. As on
-other UNIX or Linux systems, a user may also be a member of other
-groups. The list of groups that a user is part of can be determined by
-running the ``groups`` command.
+You should check the permissions of any files that you place in the shared area, 
+especially if those files were created in your own Cirrus account. Files of the 
+latter type are likely to be readable by you only.
+
+The chmod command below shows how to make sure that a file placed in the outer shared 
+folder is also readable by all Cirrus users.
+
+::
+
+    chmod a+r /work/x01/shared/your-shared-file.txt
+
+Similarly, for the inner shared folder, chmod can be called such that read permission 
+is granted to all users within the x01 project.
+
+::
+
+    chmod g+r /work/x01/x01/shared/your-shared-file.txt
+
+If you're sharing a set of files stored within a folder hierarchy the chmod is slightly 
+more complicated.
+
+::
+
+    chmod -R a+Xr /work/x01/shared/my-shared-folder
+    chmod -R g+Xr /work/x01/x01/shared/my-shared-folder
+
+The ``-R`` option ensures that the read permission is enabled recursively and the 
+``+X`` guarantees that the user(s) you're sharing the folder with can access the 
+subdirectories below my-shared-folder.
 
 Default Unix file permissions can be specified by the ``umask`` command.
 The default umask value on Cirrus is 22, which provides "group" and
